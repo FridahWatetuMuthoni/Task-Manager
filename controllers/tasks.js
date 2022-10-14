@@ -1,4 +1,4 @@
-const getAllTasks = (req, res) => {
+const getAllTasks = async (req, res) => {
     res.send('Getting All the Tasks')
 }
 

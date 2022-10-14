@@ -2,9 +2,16 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const port = 3000
-const  tasks = require('./routes/tasks')
+const tasks = require('./routes/tasks')
+const connectDB = require('./models/connect')
+require('dotenv').config() //To access the evironment variables
 
-//MIDDLEWARES
+
+
+//DATABASE
+connectDB()
+
+///MIDDLEWARES
 //express json middleware (because we will be sending json to the frontend)
 app.use(express.json())
 
@@ -14,7 +21,22 @@ app.get('/hello', (req, res) => {
 })
 app.use("/api/v1/tasks",tasks)
 
-
-app.listen(port, () => {
+//only listen to requests when the database is connected
+mongoose.connection.once('open', () => {
+    console.log('Connected to mongoDB')
+    app.listen(port, () => {
     console.log(`App running on port ${port}...`)
 })
+})
+
+
+/*
+DATABASE:MONGODB
+Collections are like tables in SQL
+Now you have to convert your password to a percentage encoding password so for that put,
+@ = %40 (put %40 instead of @)
+? = %3F
+# = %23
+[ = %5B
+] = %5D
+ */
