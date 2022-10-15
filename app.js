@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 const port = 3000
 const tasks = require('./routes/tasks')
 const connectDB = require('./models/connect')
-require('dotenv').config() //To access the evironment variables
+require('dotenv').config() //To access the environment variables
 
-
+//authentication and authorization website :https://geekflare.com/user-authentication-with-jwt-in-nodejs/
 
 //DATABASE
 connectDB()
