@@ -4,7 +4,7 @@ const asyncWrapper = (fn) => {
             await fn(req,res,next)
         }
         catch (err) {
-            next(error)
+            next(err)
         }
     }
 }

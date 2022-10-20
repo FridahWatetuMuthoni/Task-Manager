@@ -4,8 +4,23 @@ const asyncWrapper = require("../middleware/async")
 //GET ALL THE TASKS 
 //The asyncWrapper enables us not to always write a try and catch block
 const getAllTasks = asyncWrapper(async (req, res) => {
-    const all_tasks = await Task.find({}).exec()
-    res.status(200).json({ 'tasks': all_tasks })
+    let result = Task.find({})
+    const sort = '-name'
+    if (sort) {
+        result = result.sort(sort)
+    }
+    const tasks = await result
+    res.status(200).json({ tasks })
+//NOTES
+//Getting all the item names that contains an 'm' in them and console logging them: the 'i' in options makes the sort case insensitive
+    const name = "m"
+    //select is used to get the fields that you want included in your tasks...
+    //The below example returns only the name and id field and omits the rest
+    const all_tasks = await Task.find({ name: { $regex: name, $options: 'i' } }).select('name')
+    console.log(all_tasks)
+    //chaining sort,select and limit together
+    const sorted_list = await Task.find({}).sort('name').select("completed").limit(5)
+    console.log(sorted_list, sorted_list.length)
 }
 )
 
